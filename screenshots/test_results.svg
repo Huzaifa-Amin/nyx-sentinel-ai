@@ -1,0 +1,41 @@
+<svg width="900" height="480" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, Consolas, monospace">
+  <rect width="900" height="480" fill="#06061A" rx="16"/>
+  <rect width="900" height="56" fill="#0F0F2A" rx="16"/><rect width="900" height="40" fill="#0F0F2A"/>
+  <circle cx="28" cy="28" r="7" fill="#FF5F57"/><circle cx="50" cy="28" r="7" fill="#FFBD2E"/><circle cx="72" cy="28" r="7" fill="#28C840"/>
+  <text x="450" y="34" text-anchor="middle" font-size="12" fill="#7777AA" letter-spacing="1">pytest — NYX SENTINEL AI Test Suite</text>
+  <line x1="0" y1="56" x2="900" y2="56" stroke="#1E1E4A" stroke-width="1"/>
+
+  <!-- Test output -->
+  <text x="24" y="84" font-size="11" fill="#7777AA">$ python -m pytest tests/ -v --tb=short</text>
+  <text x="24" y="106" font-size="11" fill="#4A4A7A">========================= test session starts ==========================</text>
+  <text x="24" y="124" font-size="11" fill="#4A4A7A">platform linux -- Python 3.12.3 -- pytest-8.2.0</text>
+  <text x="24" y="142" font-size="11" fill="#4A4A7A">rootdir: /nyx-sentinel-ai  |  testpaths: tests</text>
+
+  <!-- Parser tests -->
+  <text x="24" y="166" font-size="11" fill="#7777AA">tests/test_alert_parser.py</text>
+  <text x="24" y="184" font-size="11" fill="#00E676">  ✓ test_returns_parsed_alert                         PASSED</text>
+  <text x="24" y="200" font-size="11" fill="#00E676">  ✓ test_timestamp_is_parsed                          PASSED</text>
+  <text x="24" y="216" font-size="11" fill="#00E676">  ✓ test_missing_id_raises_value_error                PASSED</text>
+  <text x="24" y="232" font-size="11" fill="#00E676">  ✓ test_severity_critical_for_level_14               PASSED</text>
+
+  <!-- IOC tests -->
+  <text x="24" y="254" font-size="11" fill="#7777AA">tests/test_ioc_extractor.py</text>
+  <text x="24" y="272" font-size="11" fill="#00E676">  ✓ test_extracts_ip_from_structured_field            PASSED</text>
+  <text x="24" y="288" font-size="11" fill="#00E676">  ✓ test_sha256_from_full_log                         PASSED</text>
+  <text x="24" y="304" font-size="11" fill="#00E676">  ✓ test_loopback_is_filtered                         PASSED</text>
+  <text x="24" y="320" font-size="11" fill="#00E676">  ✓ test_duplicate_ips_deduplicated                   PASSED</text>
+
+  <!-- Classifier tests -->
+  <text x="24" y="342" font-size="11" fill="#7777AA">tests/test_incident_classifier.py</text>
+  <text x="24" y="360" font-size="11" fill="#00E676">  ✓ test_brute_force_classified_correctly             PASSED</text>
+  <text x="24" y="376" font-size="11" fill="#00E676">  ✓ test_mitre_techniques_populated                   PASSED</text>
+  <text x="24" y="392" font-size="11" fill="#00E676">  ✓ test_recommended_actions_not_empty                PASSED</text>
+
+  <!-- Summary bar -->
+  <rect x="0" y="416" width="900" height="64" fill="#0A1A0A" rx="0"/>
+  <line x1="0" y1="416" x2="900" y2="416" stroke="#00E676" stroke-width="2" opacity="0.3"/>
+  <text x="24" y="442" font-size="11" fill="#4A4A7A">══════════════════════════════════════════════</text>
+  <text x="24" y="462" font-size="14" font-weight="700" fill="#00E676">  145 passed</text>
+  <text x="160" y="462" font-size="14" fill="#4A4A7A">,  0 failed,  279 warnings  in  0.81s</text>
+  <text x="840" y="462" text-anchor="end" font-size="20">✅</text>
+</svg>

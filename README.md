@@ -1,51 +1,40 @@
+<div align="center">
+
+<img src="screenshots/pipeline_overview.svg" width="100%" alt="NYX SENTINEL AI Pipeline"/>
+
 # NYX SENTINEL AI
-### AI-Enhanced SOC & Digital Forensics Incident Response Platform
 
-[![CI Pipeline](https://github.com/YOUR_USERNAME/nyx-sentinel-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/nyx-sentinel-ai/actions)
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+**AI-Enhanced SOC & Digital Forensics Incident Response Platform**
 
-> **Final-Year Cybersecurity Project** — A Python-based SOC simulation platform that automates alert triage, IOC extraction, threat intelligence enrichment, MITRE ATT&CK mapping, digital evidence collection, and incident report generation.
+[![Tests](https://img.shields.io/badge/tests-145%20passing-brightgreen?style=for-the-badge&logo=pytest)](tests/)
+[![Python](https://img.shields.io/badge/python-3.11%2B-blue?style=for-the-badge&logo=python)](https://python.org)
+[![License](https://img.shields.io/badge/license-MIT-yellow?style=for-the-badge)](LICENSE)
+[![MITRE](https://img.shields.io/badge/MITRE%20ATT%26CK-v14.1-red?style=for-the-badge)](https://attack.mitre.org)
+[![Wazuh](https://img.shields.io/badge/Wazuh-4.x-blue?style=for-the-badge)](https://wazuh.com)
+[![VirusTotal](https://img.shields.io/badge/VirusTotal-v3-blue?style=for-the-badge)](https://virustotal.com)
+
+*Final-year Cybersecurity Portfolio Project — TU Dublin MSc Applied Cyber Security*
+
+</div>
 
 ---
 
-## What NYX SENTINEL AI Does
+## What It Does
 
-NYX SENTINEL AI simulates the core workflow of a Security Operations Centre (SOC) analyst:
+NYX SENTINEL AI simulates the core workflow of a Security Operations Centre (SOC) analyst — fully automated in Python:
 
 ```
-Raw Wazuh Alert JSON
-       │
-       ▼
-┌─────────────────┐
-│  1. PARSE       │  Validate and normalise Wazuh alert format (Pydantic v2)
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  2. EXTRACT     │  Pull IOCs: IPs, domains, hashes, URLs, CVEs, usernames
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  3. ENRICH      │  VirusTotal v3 + AbuseIPDB v2 reputation lookups
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  4. CLASSIFY    │  MITRE ATT&CK mapping + weighted severity scoring
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  5. COLLECT     │  Forensic evidence collection + SHA-256 manifest
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  6. REPORT      │  Professional HTML + PDF incident reports
-└─────────────────┘
+Wazuh Alert JSON  →  Parse  →  Extract IOCs  →  Enrich (VT + AbuseIPDB)
+                  →  Classify (MITRE ATT&CK)  →  Collect Evidence  →  Report
 ```
+
+---
+
+## Screenshots
+
+<img src="screenshots/test_results.svg" width="100%" alt="145/145 Tests Passing"/>
+
+<img src="screenshots/ioc_extraction.svg" width="100%" alt="IOC Extraction and Enrichment"/>
 
 ---
 
@@ -54,204 +43,130 @@ Raw Wazuh Alert JSON
 ```
 nyx-sentinel-ai/
 ├── src/nyx_sentinel/
-│   ├── config/
-│   │   └── settings.py          # Pydantic-settings; no secrets hardcoded
+│   ├── config/settings.py            # Pydantic-settings — no secrets hardcoded
 │   ├── parsers/
-│   │   ├── models.py            # ParsedAlert, IOC, EvidenceManifest models
-│   │   └── alert_parser.py      # Wazuh JSON ingestion + schema validation
-│   ├── extractors/
-│   │   └── ioc_extractor.py     # Regex-based IOC extraction (ReDoS-safe)
-│   ├── enrichment/
-│   │   └── threat_intel.py      # Async VirusTotal + AbuseIPDB enrichment
-│   ├── forensics/
-│   │   └── collector.py         # Evidence collection + SHA-256 hashing
-│   ├── analysis/
-│   │   └── incident_classifier.py  # MITRE ATT&CK + severity scoring
+│   │   ├── models.py                 # ParsedAlert, IOC, EvidenceManifest models
+│   │   └── alert_parser.py           # Wazuh JSON ingestion + strict validation
+│   ├── extractors/ioc_extractor.py   # ReDoS-safe regex — 10 IOC types
+│   ├── enrichment/threat_intel.py    # Async VirusTotal v3 + AbuseIPDB v2
+│   ├── forensics/collector.py        # Evidence collection + SHA-256 hashing
+│   ├── analysis/incident_classifier.py  # MITRE ATT&CK + weighted severity
 │   ├── reporting/
-│   │   ├── report_generator.py  # HTML + PDF report generation
-│   │   └── templates/
-│   │       └── incident_report.html.j2   # Dark-theme Jinja2 template
-│   └── rules/
+│   │   ├── report_generator.py       # HTML + PDF generation
+│   │   └── templates/incident_report.html.j2   # Dark SOC theme
+│   └── rules/                        # 5 Sigma detection rules
 │       ├── brute_force.yml
 │       ├── suspicious_powershell.yml
 │       ├── reconnaissance.yml
 │       ├── privilege_escalation.yml
 │       └── persistence.yml
-├── tests/
-│   ├── conftest.py
-│   ├── test_alert_parser.py
-│   ├── test_ioc_extractor.py
-│   ├── test_threat_intel.py
-│   ├── test_collector.py
-│   ├── test_incident_classifier.py
-│   └── test_report_generator.py
-├── data/
-│   ├── sample_alerts/           # Realistic Wazuh alert JSON samples
-│   └── mitre_attack/            # MITRE ATT&CK technique database
-├── scripts/
-│   └── run_pipeline.py          # Full pipeline CLI runner
-├── docs/
-│   ├── architecture.md
-│   ├── install_guide.md
-│   └── demo_steps.md
-├── .env.example
-└── .github/workflows/ci.yml
+├── tests/                            # 145 tests — 6 modules
+├── data/sample_alerts/               # Realistic Wazuh JSON samples
+├── data/mitre_attack/                # ATT&CK technique database (28 techniques)
+├── scripts/run_pipeline.py           # Full CLI pipeline runner
+└── docs/                             # Architecture, install guide, demo steps
 ```
 
 ---
 
 ## Quick Start
 
-### 1. Clone the repository
-
 ```bash
-git clone https://github.com/YOUR_USERNAME/nyx-sentinel-ai.git
+# 1. Clone
+git clone https://github.com/Huzaifa-Amin/nyx-sentinel-ai.git
 cd nyx-sentinel-ai
-```
 
-### 2. Create a virtual environment
+# 2. Virtual environment
+python3 -m venv venv && source venv/bin/activate
 
-```bash
-python3 -m venv venv
-source venv/bin/activate        # Linux/macOS
-# or
-venv\Scripts\activate.bat       # Windows
-```
+# 3. Install
+pip install -r requirements-dev.txt && pip install -e .
 
-### 3. Install dependencies
-
-```bash
-pip install -r requirements-dev.txt
-pip install -e .
-```
-
-### 4. Configure environment
-
-```bash
+# 4. Configure (optional — demo works without API keys)
 cp .env.example .env
-```
 
-Edit `.env` and add your API keys:
+# 5. Run demo pipeline
+python scripts/run_pipeline.py data/sample_alerts/ --stub
 
-```env
-VIRUSTOTAL_API_KEY=your_key_here   # Free at virustotal.com
-ABUSEIPDB_API_KEY=your_key_here    # Free at abuseipdb.com
-```
-
-> **No API keys?** Use `--stub` mode — no network calls are made.
-
----
-
-## Running the Pipeline
-
-### Process a single alert (stub mode — safe for demo)
-
-```bash
-python scripts/run_pipeline.py data/sample_alerts/brute_force_alert.json --stub
-```
-
-### Process all sample alerts with live APIs
-
-```bash
-python scripts/run_pipeline.py data/sample_alerts/ --output /tmp/my_reports
-```
-
-### Process an alert and collect evidence
-
-```bash
-python scripts/run_pipeline.py data/sample_alerts/powershell_alert.json \
-    --stub \
-    --evidence /var/log/auth.log /var/log/syslog \
-    --output /tmp/reports
-```
-
-### Run the test suite
-
-```bash
+# 6. Run tests
 pytest tests/ -v
 ```
 
-### Run with coverage
+---
 
-```bash
-pytest tests/ --cov=src --cov-report=html
-```
+## Sample Alert Types Included
+
+| File | Technique | Wazuh Level | Severity |
+|------|-----------|-------------|----------|
+| `brute_force_alert.json` | T1110 — Brute Force | 10 | HIGH |
+| `powershell_alert.json` | T1059.001 — PowerShell | 12 | HIGH |
+| `recon_alert.json` | T1046 — Network Discovery | 8 | MEDIUM |
 
 ---
 
-## Sample Alert Types
+## Detection Rules (Sigma Format)
 
-| File | Technique | Severity |
-|------|-----------|----------|
-| `brute_force_alert.json` | T1110 — Brute Force | HIGH |
-| `powershell_alert.json` | T1059.001 — PowerShell | HIGH |
-| `recon_alert.json` | T1046 — Network Discovery | MEDIUM |
-
----
-
-## Detection Rules (Sigma)
-
-Five Sigma-compatible detection rules are included:
-
-| Rule | MITRE Technique | Wazuh Level |
-|------|----------------|-------------|
-| `brute_force.yml` | T1110, T1110.001, T1110.003 | 10 |
-| `suspicious_powershell.yml` | T1059.001, T1027 | 12 |
-| `reconnaissance.yml` | T1046, T1018 | 8 |
-| `privilege_escalation.yml` | T1068, T1055, T1134 | 14 |
-| `persistence.yml` | T1547.001, T1053.005 | 11 |
+| Rule | MITRE Techniques | Level |
+|------|-----------------|-------|
+| Brute Force | T1110, T1110.001, T1110.003 | HIGH |
+| Suspicious PowerShell | T1059.001, T1027 | HIGH |
+| Network Reconnaissance | T1046, T1018, T1082 | MEDIUM |
+| Privilege Escalation | T1068, T1055, T1134 | CRITICAL |
+| Persistence Mechanism | T1547.001, T1053.005, T1543.003 | HIGH |
 
 ---
 
-## Security Design
+## Security Controls
 
 | Control | Implementation |
 |---------|---------------|
 | No hardcoded secrets | All API keys via `.env` / environment variables |
-| Input validation | Pydantic v2 strict schemas on all external input |
-| Path traversal prevention | Whitelist + `Path.resolve()` before any file operation |
+| Input validation | Pydantic v2 strict schemas on all untrusted input |
+| Path traversal prevention | Whitelist + `Path.resolve()` before file operations |
 | ReDoS protection | Anchored, length-limited regex patterns |
-| XSS prevention | All values HTML-escaped via Jinja2 autoescape + `html.escape()` |
-| Timeout safety | All HTTP calls have explicit timeouts via httpx |
-| Retry safety | Exponential back-off with jitter via tenacity |
-| Privilege separation | Approved directory whitelist for evidence collection |
-| Hash verification | SHA-256 of every collected evidence file |
+| XSS prevention | Jinja2 autoescape + `html.escape()` on all values |
+| Timeout safety | All HTTP calls have explicit timeouts (httpx) |
+| Retry safety | Exponential back-off with jitter (tenacity) |
+| Evidence integrity | SHA-256 hash on every collected artifact |
 
 ---
 
-## Stack
+## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
 | Language | Python 3.11+ |
-| Data validation | Pydantic v2, pydantic-settings |
-| HTTP client | httpx (async) |
-| Retry logic | tenacity |
-| HTML templating | Jinja2 |
-| PDF generation | fpdf2 |
+| Validation | Pydantic v2, pydantic-settings |
+| HTTP | httpx (async) + tenacity |
+| Templates | Jinja2 |
+| PDF | fpdf2 |
 | Logging | loguru |
 | CLI | typer + rich |
-| Testing | pytest, pytest-asyncio, pytest-cov, respx |
-| SIEM integration | Wazuh |
-| IDS integration | Suricata |
-| Detection rules | Sigma |
-| ATT&CK framework | MITRE ATT&CK v14.1 |
+| Tests | pytest, pytest-asyncio, pytest-cov |
+| SIEM | Wazuh 4.x |
+| IDS | Suricata 7.x |
+| Detection | Sigma rules |
+| ATT&CK | MITRE ATT&CK v14.1 |
 
 ---
 
-## API Keys (Free Tier)
+## Free API Keys
 
-| Service | Free Limit | Sign Up |
+| Service | Free Tier | Sign Up |
 |---------|-----------|---------|
 | VirusTotal | 4 requests/min | [virustotal.com](https://www.virustotal.com) |
-| AbuseIPDB | 1,000 requests/day | [abuseipdb.com](https://www.abuseipdb.com) |
+| AbuseIPDB | 1,000 checks/day | [abuseipdb.com](https://www.abuseipdb.com) |
+
+> Run with `--stub` flag for demos without API keys.
 
 ---
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
+MIT © 2024 NYX SENTINEL AI
 
 ---
 
-*NYX SENTINEL AI — Built as a final-year cybersecurity portfolio project.*
+<div align="center">
+<sub>Built as a final-year cybersecurity portfolio project — MSc Applied Cyber Security, TU Dublin</sub>
+</div>

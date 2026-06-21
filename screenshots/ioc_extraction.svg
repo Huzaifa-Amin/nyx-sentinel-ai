@@ -1,0 +1,67 @@
+<svg width="900" height="420" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, Consolas, monospace">
+  <rect width="900" height="420" fill="#06061A" rx="16"/>
+  <rect width="900" height="56" fill="#0F0F2A" rx="16"/><rect width="900" height="40" fill="#0F0F2A"/>
+  <text x="450" y="34" text-anchor="middle" font-size="12" fill="#7777AA" letter-spacing="1">IOC Extraction + Threat Intelligence Enrichment</text>
+  <line x1="0" y1="56" x2="900" y2="56" stroke="#00D4FF" stroke-width="1" opacity="0.4"/>
+
+  <!-- IOC Table Header -->
+  <rect x="24" y="74" width="852" height="36" fill="#0F0F2A" rx="6"/>
+  <text x="40" y="97" font-size="10" font-weight="700" fill="#00D4FF" letter-spacing="1">TYPE</text>
+  <text x="180" y="97" font-size="10" font-weight="700" fill="#00D4FF" letter-spacing="1">VALUE</text>
+  <text x="500" y="97" font-size="10" font-weight="700" fill="#00D4FF" letter-spacing="1">VT DETECTION</text>
+  <text x="640" y="97" font-size="10" font-weight="700" fill="#00D4FF" letter-spacing="1">ABUSE SCORE</text>
+  <text x="780" y="97" font-size="10" font-weight="700" fill="#00D4FF" letter-spacing="1">VERDICT</text>
+
+  <!-- Row 1 - malicious IP -->
+  <rect x="24" y="114" width="852" height="38" fill="#1A0A0A" rx="4"/>
+  <rect x="30" y="120" width="86" height="20" rx="4" fill="rgba(0,212,255,0.12)"/>
+  <text x="73" y="134" text-anchor="middle" font-size="9" font-weight="700" fill="#00D4FF">IP ADDRESS</text>
+  <text x="180" y="137" font-size="11" fill="#E8E8FF">192.168.50.99</text>
+  <rect x="500" y="120" width="100" height="6" rx="3" fill="#1E1E4A"/>
+  <rect x="500" y="120" width="78" height="6" rx="3" fill="#FF1744"/>
+  <text x="615" y="134" font-size="10" fill="#FF1744" font-weight="700">56/72</text>
+  <text x="640" y="137" font-size="11" fill="#FF1744" font-weight="700">85%</text>
+  <text x="780" y="137" font-size="11" fill="#FF1744" font-weight="700">⛔ MALICIOUS</text>
+
+  <!-- Row 2 - SHA256 -->
+  <rect x="24" y="156" width="852" height="38" fill="#0F0F2A" rx="4"/>
+  <rect x="30" y="162" width="86" height="20" rx="4" fill="rgba(157,78,255,0.12)"/>
+  <text x="73" y="176" text-anchor="middle" font-size="9" font-weight="700" fill="#C49EFF">SHA-256</text>
+  <text x="180" y="179" font-size="9" fill="#E8E8FF">3a1b2c3d4e5f6789...0a1b2c3d</text>
+  <rect x="500" y="162" width="100" height="6" rx="3" fill="#1E1E4A"/>
+  <rect x="500" y="162" width="22" height="6" rx="3" fill="#FF9100"/>
+  <text x="615" y="176" font-size="10" fill="#FF9100" font-weight="700">16/72</text>
+  <text x="640" y="179" font-size="11" fill="#7777AA">N/A</text>
+  <text x="780" y="179" font-size="11" fill="#FF9100" font-weight="700">⚠ SUSPICIOUS</text>
+
+  <!-- Row 3 - domain -->
+  <rect x="24" y="198" width="852" height="38" fill="#1A0A0A" rx="4"/>
+  <rect x="30" y="204" width="86" height="20" rx="4" fill="rgba(0,230,118,0.12)"/>
+  <text x="73" y="218" text-anchor="middle" font-size="9" font-weight="700" fill="#00E676">DOMAIN</text>
+  <text x="180" y="221" font-size="11" fill="#E8E8FF">corp-win-wks01</text>
+  <rect x="500" y="204" width="100" height="6" rx="3" fill="#1E1E4A"/>
+  <rect x="500" y="204" width="2" height="6" rx="3" fill="#00E676"/>
+  <text x="615" y="218" font-size="10" fill="#00E676" font-weight="700">0/72</text>
+  <text x="640" y="221" font-size="11" fill="#7777AA">N/A</text>
+  <text x="780" y="221" font-size="11" fill="#00E676">✔ Clean</text>
+
+  <!-- Row 4 - username -->
+  <rect x="24" y="240" width="852" height="38" fill="#0F0F2A" rx="4"/>
+  <rect x="30" y="246" width="86" height="20" rx="4" fill="rgba(0,212,255,0.08)"/>
+  <text x="73" y="260" text-anchor="middle" font-size="9" font-weight="700" fill="#88DDFF">USERNAME</text>
+  <text x="180" y="263" font-size="11" fill="#E8E8FF">Administrator</text>
+  <text x="500" y="263" font-size="10" fill="#4A4A7A">N/A — not enrichable</text>
+  <text x="640" y="263" font-size="11" fill="#4A4A7A">N/A</text>
+  <text x="780" y="263" font-size="11" fill="#7777AA">— No lookup</text>
+
+  <!-- Summary strip -->
+  <rect x="24" y="296" width="852" height="64" fill="#0F0F2A" rx="10"/>
+  <rect x="24" y="296" width="4" height="64" fill="#FF1744" rx="2"/>
+  <text x="50" y="320" font-size="12" font-weight="700" fill="#FF1744">⚠  1 MALICIOUS IOC DETECTED</text>
+  <text x="50" y="340" font-size="11" fill="#7777AA">Source IP 192.168.50.99 flagged by VirusTotal (56/72 vendors) and AbuseIPDB (85% confidence)</text>
+  <text x="50" y="356" font-size="11" fill="#7777AA">Recommended: Block at perimeter firewall immediately. Lock targeted account Administrator.</text>
+
+  <!-- Footer -->
+  <line x1="0" y1="378" x2="900" y2="378" stroke="#1E1E4A" stroke-width="1"/>
+  <text x="450" y="400" text-anchor="middle" font-size="10" fill="#4A4A7A">NYX SENTINEL AI  •  github.com/Huzaifa-Amin/nyx-sentinel-ai</text>
+</svg>
