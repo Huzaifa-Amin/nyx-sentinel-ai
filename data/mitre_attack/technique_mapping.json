@@ -1,0 +1,212 @@
+{
+  "version": "14.1",
+  "last_updated": "2024-01-01",
+  "techniques": {
+    "T1110": {
+      "name": "Brute Force",
+      "tactic": "Credential Access",
+      "description": "Adversaries may use brute force techniques to gain access to accounts. This can include password cracking, guessing, and spraying attacks.",
+      "url": "https://attack.mitre.org/techniques/T1110/",
+      "detection": "Monitor for multiple failed authentication attempts. Use account lockout policies.",
+      "severity_weight": 8,
+      "subtechniques": ["T1110.001", "T1110.002", "T1110.003", "T1110.004"]
+    },
+    "T1110.001": {
+      "name": "Password Guessing",
+      "tactic": "Credential Access",
+      "description": "Adversaries may use a limited set of guesses for a specific account without triggering lockout.",
+      "url": "https://attack.mitre.org/techniques/T1110/001/",
+      "severity_weight": 7
+    },
+    "T1110.003": {
+      "name": "Password Spraying",
+      "tactic": "Credential Access",
+      "description": "Adversaries may use a single or small list of commonly used passwords against many accounts.",
+      "url": "https://attack.mitre.org/techniques/T1110/003/",
+      "severity_weight": 8
+    },
+    "T1059": {
+      "name": "Command and Scripting Interpreter",
+      "tactic": "Execution",
+      "description": "Adversaries may abuse command and script interpreters to execute commands, scripts, or binaries.",
+      "url": "https://attack.mitre.org/techniques/T1059/",
+      "severity_weight": 7,
+      "subtechniques": ["T1059.001", "T1059.003", "T1059.005", "T1059.006"]
+    },
+    "T1059.001": {
+      "name": "PowerShell",
+      "tactic": "Execution",
+      "description": "Adversaries may abuse PowerShell commands and scripts for execution. PowerShell is a cross-platform task automation and configuration management framework.",
+      "url": "https://attack.mitre.org/techniques/T1059/001/",
+      "severity_weight": 8
+    },
+    "T1059.003": {
+      "name": "Windows Command Shell",
+      "tactic": "Execution",
+      "description": "Adversaries may abuse the Windows command shell for execution. The Windows command shell (cmd) is the primary command prompt on Windows systems.",
+      "url": "https://attack.mitre.org/techniques/T1059/003/",
+      "severity_weight": 6
+    },
+    "T1027": {
+      "name": "Obfuscated Files or Information",
+      "tactic": "Defense Evasion",
+      "description": "Adversaries may attempt to make an executable or file difficult to discover or analyze by encrypting, encoding, or otherwise obfuscating its contents.",
+      "url": "https://attack.mitre.org/techniques/T1027/",
+      "severity_weight": 7
+    },
+    "T1046": {
+      "name": "Network Service Discovery",
+      "tactic": "Discovery",
+      "description": "Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure.",
+      "url": "https://attack.mitre.org/techniques/T1046/",
+      "severity_weight": 5
+    },
+    "T1018": {
+      "name": "Remote System Discovery",
+      "tactic": "Discovery",
+      "description": "Adversaries may attempt to get a listing of other systems by IP address, hostname, or other logical identifier.",
+      "url": "https://attack.mitre.org/techniques/T1018/",
+      "severity_weight": 5
+    },
+    "T1082": {
+      "name": "System Information Discovery",
+      "tactic": "Discovery",
+      "description": "An adversary may attempt to get detailed information about the operating system and hardware.",
+      "url": "https://attack.mitre.org/techniques/T1082/",
+      "severity_weight": 4
+    },
+    "T1078": {
+      "name": "Valid Accounts",
+      "tactic": "Initial Access",
+      "description": "Adversaries may obtain and abuse credentials of existing accounts as a means of gaining initial access, persistence, or privilege escalation.",
+      "url": "https://attack.mitre.org/techniques/T1078/",
+      "severity_weight": 9
+    },
+    "T1055": {
+      "name": "Process Injection",
+      "tactic": "Defense Evasion",
+      "description": "Adversaries may inject code into processes to evade process-based defenses and elevate privileges.",
+      "url": "https://attack.mitre.org/techniques/T1055/",
+      "severity_weight": 9
+    },
+    "T1068": {
+      "name": "Exploitation for Privilege Escalation",
+      "tactic": "Privilege Escalation",
+      "description": "Adversaries may exploit software vulnerabilities to elevate privileges.",
+      "url": "https://attack.mitre.org/techniques/T1068/",
+      "severity_weight": 10
+    },
+    "T1134": {
+      "name": "Access Token Manipulation",
+      "tactic": "Defense Evasion",
+      "description": "Adversaries may modify access tokens to operate under a different user or system security context.",
+      "url": "https://attack.mitre.org/techniques/T1134/",
+      "severity_weight": 9
+    },
+    "T1547": {
+      "name": "Boot or Logon Autostart Execution",
+      "tactic": "Persistence",
+      "description": "Adversaries may configure system settings to automatically execute a program during system boot or logon.",
+      "url": "https://attack.mitre.org/techniques/T1547/",
+      "severity_weight": 8
+    },
+    "T1547.001": {
+      "name": "Registry Run Keys / Startup Folder",
+      "tactic": "Persistence",
+      "description": "Adversaries may achieve persistence by adding a program to a startup folder or referencing it with a Registry run key.",
+      "url": "https://attack.mitre.org/techniques/T1547/001/",
+      "severity_weight": 8
+    },
+    "T1053": {
+      "name": "Scheduled Task/Job",
+      "tactic": "Persistence",
+      "description": "Adversaries may abuse task scheduling functionality to facilitate initial or recurring execution of malicious code.",
+      "url": "https://attack.mitre.org/techniques/T1053/",
+      "severity_weight": 7
+    },
+    "T1053.005": {
+      "name": "Scheduled Task",
+      "tactic": "Persistence",
+      "description": "Adversaries may abuse the Windows Task Scheduler to perform task scheduling for initial or recurring execution of malicious code.",
+      "url": "https://attack.mitre.org/techniques/T1053/005/",
+      "severity_weight": 7
+    },
+    "T1543.003": {
+      "name": "Windows Service",
+      "tactic": "Persistence",
+      "description": "Adversaries may create or modify Windows services to repeatedly execute malicious payloads as part of persistence.",
+      "url": "https://attack.mitre.org/techniques/T1543/003/",
+      "severity_weight": 8
+    },
+    "T1003": {
+      "name": "OS Credential Dumping",
+      "tactic": "Credential Access",
+      "description": "Adversaries may attempt to dump credentials to obtain account login and credential material.",
+      "url": "https://attack.mitre.org/techniques/T1003/",
+      "severity_weight": 10
+    },
+    "T1021": {
+      "name": "Remote Services",
+      "tactic": "Lateral Movement",
+      "description": "Adversaries may use valid accounts to log into a service specifically designed to accept remote connections.",
+      "url": "https://attack.mitre.org/techniques/T1021/",
+      "severity_weight": 8
+    },
+    "T1021.001": {
+      "name": "Remote Desktop Protocol",
+      "tactic": "Lateral Movement",
+      "description": "Adversaries may use Valid Accounts to log into a computer using the Remote Desktop Protocol.",
+      "url": "https://attack.mitre.org/techniques/T1021/001/",
+      "severity_weight": 7
+    },
+    "T1105": {
+      "name": "Ingress Tool Transfer",
+      "tactic": "Command and Control",
+      "description": "Adversaries may transfer tools or other files from an external system into a compromised environment.",
+      "url": "https://attack.mitre.org/techniques/T1105/",
+      "severity_weight": 8
+    },
+    "T1566": {
+      "name": "Phishing",
+      "tactic": "Initial Access",
+      "description": "Adversaries may send phishing messages to gain access to victim systems.",
+      "url": "https://attack.mitre.org/techniques/T1566/",
+      "severity_weight": 7
+    },
+    "T1190": {
+      "name": "Exploit Public-Facing Application",
+      "tactic": "Initial Access",
+      "description": "Adversaries may attempt to exploit a weakness in an internet-facing host or system.",
+      "url": "https://attack.mitre.org/techniques/T1190/",
+      "severity_weight": 10
+    },
+    "T1486": {
+      "name": "Data Encrypted for Impact",
+      "tactic": "Impact",
+      "description": "Adversaries may encrypt data on target systems or on large numbers of systems to interrupt availability.",
+      "url": "https://attack.mitre.org/techniques/T1486/",
+      "severity_weight": 10
+    },
+    "T1489": {
+      "name": "Service Stop",
+      "tactic": "Impact",
+      "description": "Adversaries may stop or disable services on a system to render those services unavailable to legitimate users.",
+      "url": "https://attack.mitre.org/techniques/T1489/",
+      "severity_weight": 9
+    }
+  },
+  "tactics": {
+    "Initial Access": {"id": "TA0001", "description": "The adversary is trying to get into your network."},
+    "Execution": {"id": "TA0002", "description": "The adversary is trying to run malicious code."},
+    "Persistence": {"id": "TA0003", "description": "The adversary is trying to maintain their foothold."},
+    "Privilege Escalation": {"id": "TA0004", "description": "The adversary is trying to gain higher-level permissions."},
+    "Defense Evasion": {"id": "TA0005", "description": "The adversary is trying to avoid being detected."},
+    "Credential Access": {"id": "TA0006", "description": "The adversary is trying to steal account names and passwords."},
+    "Discovery": {"id": "TA0007", "description": "The adversary is trying to figure out your environment."},
+    "Lateral Movement": {"id": "TA0008", "description": "The adversary is trying to move through your environment."},
+    "Collection": {"id": "TA0009", "description": "The adversary is trying to gather data of interest."},
+    "Command and Control": {"id": "TA0011", "description": "The adversary is trying to communicate with compromised systems."},
+    "Exfiltration": {"id": "TA0010", "description": "The adversary is trying to steal data."},
+    "Impact": {"id": "TA0040", "description": "The adversary is trying to manipulate, interrupt, or destroy your systems."}
+  }
+}

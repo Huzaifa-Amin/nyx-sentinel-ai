@@ -1,0 +1,47 @@
+{
+  "id": "1706000003.334455",
+  "timestamp": "2024-01-24T02:44:11.000+0000",
+  "rule": {
+    "level": 8,
+    "description": "Network Port Scan Detected (Suricata ET SCAN Nmap)",
+    "id": "40101",
+    "mitre": {
+      "attack": ["T1046", "T1018"],
+      "tactic": ["Discovery"],
+      "technique": ["Network Service Discovery", "Remote System Discovery"]
+    },
+    "groups": [
+      "network_scan",
+      "suricata",
+      "recon",
+      "ids"
+    ]
+  },
+  "agent": {
+    "id": "002",
+    "name": "suricata-sensor-01",
+    "ip": "10.10.0.5"
+  },
+  "manager": {
+    "name": "wazuh-manager-01"
+  },
+  "full_log": "01/24/2024-02:44:11.123456  [**] [1:2010935:3] ET SCAN Nmap Scripting Engine User-Agent Detected (Nmap Scripting Engine) [**] [Classification: Web Application Attack] [Priority: 1] {TCP} 203.0.113.42:54321 -> 10.10.20.0/24:80",
+  "data": {
+    "alert": {
+      "signature": "ET SCAN Nmap Scripting Engine User-Agent Detected",
+      "signature_id": "2010935",
+      "category": "Web Application Attack",
+      "severity": 1
+    },
+    "srcip": "203.0.113.42",
+    "srcport": "54321",
+    "dstip": "10.10.20.15",
+    "dstport": "80",
+    "proto": "TCP",
+    "app_proto": "http"
+  },
+  "decoder": {
+    "name": "json"
+  },
+  "location": "/var/log/suricata/eve.json"
+}

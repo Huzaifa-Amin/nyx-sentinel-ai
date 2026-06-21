@@ -1,0 +1,68 @@
+title: Windows Logon Brute Force Attack
+id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+status: stable
+description: >
+  Detects multiple consecutive failed Windows logon attempts against the same
+  target account, which is characteristic of a brute-force or password-spray
+  attack. Covers Logon Type 3 (Network) and Type 10 (RemoteInteractive/RDP).
+author: NYX SENTINEL AI
+date: 2024-01-01
+modified: 2024-06-01
+references:
+  - https://attack.mitre.org/techniques/T1110/
+  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625
+tags:
+  - attack.credential_access
+  - attack.t1110
+  - attack.t1110.001
+  - attack.t1110.003
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4625
+    LogonType:
+      - 3    # Network logon (SMB, RDP pre-auth)
+      - 10   # RemoteInteractive (RDP)
+  filter_system_accounts:
+    SubjectUserName|endswith: '$'
+  filter_anonymous:
+    TargetUserName:
+      - '-'
+      - 'ANONYMOUS LOGON'
+  condition: selection and not 1 of filter_*
+  timeframe: 5m
+aggregation: |
+  count(TargetUserName) by IpAddress > 5
+falsepositives:
+  - Misconfigured applications repeatedly attempting authentication
+  - Scheduled tasks with stale credentials
+  - Users forgetting updated passwords
+level: high
+fields:
+  - EventID
+  - IpAddress
+  - TargetUserName
+  - LogonType
+  - WorkstationName
+  - FailureReason
+wazuh:
+  rule_id: "18302"
+  rule_level: 10
+  rule_groups:
+    - windows
+    - authentication_failed
+    - win_authentication_failed
+mitre:
+  techniques:
+    - T1110
+    - T1110.001
+    - T1110.003
+  tactics:
+    - Credential Access
+response_actions:
+  - Lock the targeted user account immediately
+  - Block the source IP at the perimeter firewall
+  - Review successful authentications from the same IP
+  - Enable account lockout policy (5 attempts / 30 min lockout)

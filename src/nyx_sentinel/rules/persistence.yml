@@ -1,0 +1,98 @@
+title: Persistence Mechanism Detected
+id: e5f6a7b8-c9d0-1234-efab-567890123456
+status: stable
+description: >
+  Detects common persistence mechanisms used by attackers to survive
+  reboots and maintain access: registry run keys, scheduled tasks,
+  new Windows services, WMI event subscriptions, and startup folder
+  modifications.
+author: NYX SENTINEL AI
+date: 2024-01-01
+modified: 2024-06-01
+references:
+  - https://attack.mitre.org/techniques/T1547/
+  - https://attack.mitre.org/techniques/T1053/
+  - https://attack.mitre.org/techniques/T1543/
+  - https://attack.mitre.org/techniques/T1546/
+tags:
+  - attack.persistence
+  - attack.t1547.001
+  - attack.t1053.005
+  - attack.t1543.003
+  - attack.t1546.003
+logsource:
+  product: windows
+detection:
+  selection_registry_run:
+    EventID: 13   # Sysmon registry value set
+    TargetObject|contains:
+      - '\SOFTWARE\Microsoft\Windows\CurrentVersion\Run'
+      - '\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce'
+      - '\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Run'
+      - '\SYSTEM\CurrentControlSet\Services'
+    Image|not_contains:
+      - '\Windows\System32\'
+      - '\Windows\SysWOW64\'
+      - '\Program Files\'
+      - '\Program Files (x86)\'
+  selection_scheduled_task:
+    EventID:
+      - 4698   # Scheduled task created
+      - 4702   # Scheduled task updated
+    TaskContent|contains:
+      - 'cmd.exe'
+      - 'powershell'
+      - 'wscript'
+      - 'cscript'
+      - 'mshta'
+      - 'rundll32'
+      - 'regsvr32'
+  selection_new_service:
+    EventID: 7045   # New service installed
+    ServiceType: 'user mode service'
+    ImagePath|contains:
+      - 'cmd.exe'
+      - 'powershell'
+      - '%TEMP%'
+      - '%APPDATA%'
+  selection_startup_folder:
+    EventID: 11   # Sysmon file created
+    TargetFilename|contains:
+      - '\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup'
+      - '\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup'
+  condition: 1 of selection_*
+falsepositives:
+  - Legitimate software installers creating run keys
+  - Authorised scheduled tasks for backups or monitoring
+  - IT management tools creating services (Antivirus, EDR agents)
+level: high
+fields:
+  - EventID
+  - Image
+  - TargetObject
+  - Details
+  - TaskName
+  - TaskContent
+  - ServiceName
+  - ImagePath
+wazuh:
+  rule_id: "61506"
+  rule_level: 11
+  rule_groups:
+    - windows
+    - persistence
+    - sysmon
+mitre:
+  techniques:
+    - T1547.001
+    - T1053.005
+    - T1543.003
+    - T1546.003
+  tactics:
+    - Persistence
+response_actions:
+  - Identify and remove the persistence mechanism
+  - Determine when and how it was installed (timeline analysis)
+  - Search for the same persistence artefact across all endpoints
+  - Check if C2 communication occurred after reboot events
+  - Run a full AV/EDR scan on the affected endpoint

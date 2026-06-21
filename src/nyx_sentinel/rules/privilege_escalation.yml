@@ -1,0 +1,93 @@
+title: Windows Privilege Escalation Indicators
+id: d4e5f6a7-b8c9-0123-defa-456789012345
+status: stable
+description: >
+  Detects multiple privilege escalation techniques on Windows systems including:
+  UAC bypass attempts, token manipulation, SeDebugPrivilege assignment,
+  new local admin account creation, and sensitive group membership changes.
+author: NYX SENTINEL AI
+date: 2024-01-01
+modified: 2024-06-01
+references:
+  - https://attack.mitre.org/techniques/T1068/
+  - https://attack.mitre.org/techniques/T1055/
+  - https://attack.mitre.org/techniques/T1078/003/
+tags:
+  - attack.privilege_escalation
+  - attack.defense_evasion
+  - attack.t1068
+  - attack.t1055
+  - attack.t1134
+logsource:
+  product: windows
+  service: security
+detection:
+  selection_new_admin:
+    EventID: 4732
+    GroupName:
+      - 'Administrators'
+      - 'Remote Desktop Users'
+      - 'Backup Operators'
+  selection_token_priv:
+    EventID: 4703
+    EnabledPrivilegeList|contains:
+      - 'SeDebugPrivilege'
+      - 'SeImpersonatePrivilege'
+      - 'SeTakeOwnershipPrivilege'
+      - 'SeLoadDriverPrivilege'
+  selection_uac_bypass:
+    EventID: 4688
+    NewProcessName|endswith:
+      - '\fodhelper.exe'
+      - '\eventvwr.exe'
+      - '\sdclt.exe'
+      - '\schtasks.exe'
+    ProcessCommandLine|contains: '/u:administrator'
+  selection_process_inject:
+    EventID: 4688
+    NewProcessName|endswith:
+      - '\rundll32.exe'
+      - '\regsvr32.exe'
+      - '\mshta.exe'
+      - '\wscript.exe'
+      - '\cscript.exe'
+    ProcessCommandLine|contains:
+      - 'http://'
+      - 'https://'
+      - 'ftp://'
+  condition: 1 of selection_*
+falsepositives:
+  - Legitimate software installers that require admin elevation
+  - Authorised system administration tasks
+  - IT security tools (PAM solutions, endpoint agents)
+level: critical
+fields:
+  - EventID
+  - SubjectUserName
+  - TargetUserName
+  - GroupName
+  - EnabledPrivilegeList
+  - NewProcessName
+  - ProcessCommandLine
+wazuh:
+  rule_id: "60106"
+  rule_level: 14
+  rule_groups:
+    - windows
+    - privilege_escalation
+    - win_security
+mitre:
+  techniques:
+    - T1068
+    - T1055
+    - T1134
+    - T1078.003
+  tactics:
+    - Privilege Escalation
+    - Defense Evasion
+response_actions:
+  - IMMEDIATE — preserve memory dump from affected host
+  - Check for new local admin accounts or group membership changes
+  - Review process tree for malicious parent-child relationships
+  - Initiate full forensic acquisition of affected endpoint
+  - Check for lateral movement using newly elevated privileges

@@ -1,0 +1,57 @@
+{
+  "id": "1706000001.112233",
+  "timestamp": "2024-01-24T03:17:42.000+0000",
+  "rule": {
+    "level": 10,
+    "description": "Multiple Windows Logon Failures — Possible Brute Force Attack",
+    "id": "18302",
+    "mitre": {
+      "attack": ["T1110", "T1110.001"],
+      "tactic": ["Credential Access"],
+      "technique": ["Brute Force", "Password Guessing"]
+    },
+    "groups": [
+      "windows",
+      "authentication_failed",
+      "win_authentication_failed",
+      "brute_force"
+    ]
+  },
+  "agent": {
+    "id": "001",
+    "name": "CORP-WIN-WKS01",
+    "ip": "10.10.20.15"
+  },
+  "manager": {
+    "name": "wazuh-manager-01"
+  },
+  "full_log": "WinEvtLog: Security: AUDIT_FAILURE(4625): An account failed to log on. Subject: Security ID: S-1-0-0 Account Name: - Account Domain: - Logon ID: 0x0 Logon Type: 3 Account For Which Logon Failed: Security ID: S-1-0-0 Account Name: Administrator Account Domain: CORP Failure Information: Failure Reason: Unknown user name or bad password. Status: 0xC000006D Sub Status: 0xC0000064 Process Information: Caller Process ID: 0x0 Caller Process Name: - Network Information: Workstation Name: KALI-ATTACKER Source Network Address: 192.168.50.99 Source Port: 41892 Detailed Authentication Information: Logon Process: NtLmSsp Authentication Package: NTLM Transited Services: - Package Name (NTLM only): - Key Length: 0",
+  "data": {
+    "win": {
+      "system": {
+        "eventID": "4625",
+        "computer": "CORP-WIN-WKS01",
+        "message": "An account failed to log on."
+      },
+      "eventdata": {
+        "subjectUserSid": "S-1-0-0",
+        "subjectUserName": "-",
+        "subjectDomainName": "-",
+        "subjectLogonId": "0x0",
+        "targetUserName": "Administrator",
+        "targetDomainName": "CORP",
+        "status": "0xC000006D",
+        "failureReason": "Unknown user name or bad password.",
+        "subStatus": "0xC0000064",
+        "logonType": "3",
+        "ipAddress": "192.168.50.99",
+        "ipPort": "41892",
+        "workstationName": "KALI-ATTACKER"
+      }
+    }
+  },
+  "decoder": {
+    "name": "windows_eventchannel"
+  },
+  "location": "EventChannel"
+}

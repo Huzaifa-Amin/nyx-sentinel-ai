@@ -1,0 +1,70 @@
+title: Network Reconnaissance and Port Scanning
+id: c3d4e5f6-a7b8-9012-cdef-345678901234
+status: stable
+description: >
+  Detects internal and external network reconnaissance activity including
+  port scanning (Nmap, Masscan), ARP sweeps, and use of built-in Windows
+  network discovery commands (net, nslookup, ping sweeps, netstat).
+  Internal scanners are higher-risk as they indicate post-compromise activity.
+author: NYX SENTINEL AI
+date: 2024-01-01
+modified: 2024-06-01
+references:
+  - https://attack.mitre.org/techniques/T1046/
+  - https://attack.mitre.org/techniques/T1018/
+  - https://attack.mitre.org/techniques/T1082/
+tags:
+  - attack.discovery
+  - attack.t1046
+  - attack.t1018
+  - attack.t1082
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection_suricata_scan:
+    alert.signature_id:
+      - 2100368   # GPL SCAN nmap XMAS
+      - 2100469   # GPL SCAN SYN FIN
+      - 2010935   # ET SCAN Nmap Scripting Engine User-Agent
+      - 2001569   # ET SCAN Potential SSH Scan
+      - 2009582   # ET SCAN Nmap -sA
+  selection_suricata_recon:
+    alert.signature_id:
+      - 2013504   # ET SCAN Masscan Scanning for Open Ports
+      - 2016155   # ET SCAN Rapid POP3 Connections
+  condition: 1 of selection_*
+  timeframe: 1m
+aggregation: |
+  count(dest_port) by src_ip > 20
+falsepositives:
+  - Authorised vulnerability scans (Nessus, Qualys)
+  - Network inventory tools (Lansweeper, SolarWinds)
+  - Legitimate IT audits — must be pre-approved and documented
+level: medium
+fields:
+  - src_ip
+  - dest_ip
+  - dest_port
+  - protocol
+  - alert.signature
+wazuh:
+  rule_id: "40101"
+  rule_level: 8
+  rule_groups:
+    - network_scan
+    - suricata
+    - recon
+mitre:
+  techniques:
+    - T1046
+    - T1018
+    - T1082
+  tactics:
+    - Discovery
+response_actions:
+  - Identify whether the scanning source is internal or external
+  - If internal — assume post-breach lateral discovery; escalate immediately
+  - If external — block source IP at perimeter firewall
+  - Check for subsequent exploitation attempts from same source
+  - Correlate with other alerts in the same time window

